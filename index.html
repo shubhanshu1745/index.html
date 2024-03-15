@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Animated Countdown Timer</title>
+    <style>
+        @keyframes popIn {
+            0% { transform: scale(0); opacity: 0; }
+            80% { transform: scale(1.1); opacity: 1; }
+            100% { transform: scale(1); }
+        }
+
+        body {
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            background-color: #30e3ca;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+
+        nav {
+            background-color: #11999e;
+            padding: 10px 0;
+            text-align: center;
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 10px;
+            padding: 5px 10px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        nav a:hover {
+            background-color: #0a6b72;
+        }
+
+        .countdown-container {
+            text-align: center;
+            padding: 20px;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.8);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            flex-grow: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .countdown-item {
+            display: inline-block;
+            margin: 0 15px;
+            padding: 20px;
+            background-color: #ff4e50;
+            color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            animation: popIn 1s ease forwards;
+        }
+    </style>
+</head>
+
+<body>
+    <nav>
+        <a href="#" onclick="showCountdown('days')">Days</a>
+        <a href="#" onclick="showCountdown('hours')">Hours</a>
+        <a href="#" onclick="showCountdown('minutes')">Minutes</a>
+        <a href="#" onclick="showCountdown('seconds')">Seconds</a>
+    </nav>
+
+    <div class="countdown-container">
+        <div class="countdown-item" id="days">0 days</div>
+        <div class="countdown-item" id="hours">0 hours</div>
+        <div class="countdown-item" id="minutes">0 minutes</div>
+        <div class="countdown-item" id="seconds">0 seconds</div>
+    </div>
+
+    <script>
+        // Set the countdown target date (May 31, 2024)
+        const targetDate = new Date('2024-05-31T00:00:00');
+
+        // Function to update the countdown timer
+        function updateCountdown() {
+            const currentDate = new Date();
+            const timeDifference = targetDate.getTime() - currentDate.getTime();
+
+            // Calculate days, hours, minutes, seconds
+            const days = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((timeDifference % (1000 * 60)) / 1000);
+
+            // Update the HTML elements with the calculated values
+            document.getElementById('days').textContent = days + ' days';
+            document.getElementById('hours').textContent = hours + ' hours';
+            document.getElementById('minutes').textContent = minutes + ' minutes';
+            document.getElementById('seconds').textContent = seconds + ' seconds';
+        }
+
+        // Function to show only the selected countdown item
+        function showCountdown(item) {
+            const countdownItems = document.querySelectorAll('.countdown-item');
+            countdownItems.forEach(element => {
+                if (element.id === item) {
+                    element.style.display = 'inline-block';
+                } else {
+                    element.style.display = 'none';
+                }
+            });
+        }
+
+        // Update the countdown every second
+        setInterval(updateCountdown, 1000);
+
+        // Initial update when the page loads
+        updateCountdown();
+    </script>
+</body>
+
+</html>
